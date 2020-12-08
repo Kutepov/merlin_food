@@ -2,29 +2,27 @@
 
 namespace app\controllers;
 
-use yii\web\Controller;
-
-class SiteController extends Controller
+class SiteController extends BaseController
 {
     /**
-     * {@inheritdoc}
+     * @return array|string[]
      */
-    public function actions()
+    public function actionError(): array
     {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-        ];
+        $exception = \Yii::$app->errorHandler->exception;
+        if ($exception !== null) {
+            return ['message' => $exception->getMessage()];
+        }
+        return ['message' => 'Unknown error'];
     }
 
     /**
-     * Displays homepage.
+     * Check work
      *
-     * @return string
+     * @return string[]
      */
-    public function actionIndex()
+    public function actionIndex(): array
     {
-        return 'Service works!';
+        return ['message' => 'Service works!'];
     }
 }

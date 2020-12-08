@@ -5,6 +5,7 @@
       controllers/        классы контроллеров
       models/             классы моделей
       migrations/         миграции
+      modules/            Api
       runtime/            файлы, сзданные в рантайме
       vendor/             пакеты зависимостей
       web/                точка входа в приложение
@@ -22,6 +23,12 @@ $ docker-compose up --build
 
 ~~~
 http://localhost:8000
+~~~
+
+Api будет доступно по адресу:
+
+~~~
+http://localhost:8000/api/v1
 ~~~
 
 **NOTES:**
