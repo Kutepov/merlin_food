@@ -2,7 +2,7 @@
 
 namespace app\modules\api\v1;
 
-use app\modules\api\BaseModule;
+use app\modules\api\Module as BaseModule;
 /**
  * v1 module definition class
  */

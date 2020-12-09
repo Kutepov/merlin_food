@@ -2,11 +2,11 @@
 
 namespace app\modules\api;
 
-use yii\base\Module;
+use yii\base\Module as BaseModule;
 /**
  * api module definition class
  */
-class BaseModule extends Module
+class Module extends BaseModule
 {
     /**
      * {@inheritdoc}
