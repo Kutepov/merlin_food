@@ -30,6 +30,7 @@ class Characteristic extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['name'], 'required'],
             [['max_points'], 'integer'],
             [['name'], 'string', 'max' => 255],
         ];
@@ -54,7 +55,7 @@ class Characteristic extends \yii\db\ActiveRecord
      */
     public function getCharacteristicProgresses()
     {
-        return $this->hasMany(CharacteristicProgress::className(), ['characteristic_id' => 'id']);
+        return $this->hasMany(CharacteristicProgress::class, ['characteristic_id' => 'id']);
     }
 
     /**
@@ -64,6 +65,6 @@ class Characteristic extends \yii\db\ActiveRecord
      */
     public function getQualities()
     {
-        return $this->hasMany(Quality::className(), ['characteristic_id' => 'id']);
+        return $this->hasMany(Quality::class, ['characteristic_id' => 'id']);
     }
 }

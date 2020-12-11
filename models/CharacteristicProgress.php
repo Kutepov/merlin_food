@@ -32,8 +32,8 @@ class CharacteristicProgress extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'characteristic_id', 'points'], 'integer'],
-            [['characteristic_id'], 'exist', 'skipOnError' => true, 'targetClass' => Characteristic::className(), 'targetAttribute' => ['characteristic_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['characteristic_id'], 'exist', 'skipOnError' => true, 'targetClass' => Characteristic::class, 'targetAttribute' => ['characteristic_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -57,7 +57,7 @@ class CharacteristicProgress extends \yii\db\ActiveRecord
      */
     public function getCharacteristic()
     {
-        return $this->hasOne(Characteristic::className(), ['id' => 'characteristic_id']);
+        return $this->hasOne(Characteristic::class, ['id' => 'characteristic_id']);
     }
 
     /**
@@ -67,6 +67,6 @@ class CharacteristicProgress extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 }

@@ -18,8 +18,7 @@ class m201209_064216_create_available_recommendation_table extends Migration
             'recommendation_id' => $this->integer()
         ]);
 
-        $this->addForeignKey('FK_available_recommendation_user', '{{%available_recommendation}}', 'user_id', '{{%user}}', 'id');
-        $this->addForeignKey('FK_available_recommendation_recommendation', '{{%available_recommendation}}', 'user_id', '{{%user}}', 'id');
+        $this->addForeignKey('FK_available_recommendation_recommendation', '{{%available_recommendation}}', 'recommendation_id', '{{%recommendation}}', 'id', 'cascade', 'cascade');
     }
 
     /**
@@ -27,7 +26,6 @@ class m201209_064216_create_available_recommendation_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('FK_available_recommendation_user', '{{%available_recommendation}}');
         $this->dropForeignKey('FK_available_recommendation_recommendation', '{{%available_recommendation}}');
         $this->dropTable('{{%available_recommendation}}');
     }

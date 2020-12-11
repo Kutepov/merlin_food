@@ -2,8 +2,6 @@
 
 namespace app\models;
 
-use Yii;
-
 /**
  * This is the model class for table "recommendation".
  *
@@ -11,6 +9,7 @@ use Yii;
  * @property int|null $sort
  * @property string|null $text
  * @property int|null $quality_id
+ * @property string $personality_type - типаж личности
  *
  * @property Quality $quality
  */
@@ -32,7 +31,7 @@ class Recommendation extends \yii\db\ActiveRecord
         return [
             [['sort', 'quality_id'], 'integer'],
             [['text'], 'string'],
-            [['quality_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quality::className(), 'targetAttribute' => ['quality_id' => 'id']],
+            [['quality_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quality::class, 'targetAttribute' => ['quality_id' => 'id']],
         ];
     }
 
@@ -56,6 +55,6 @@ class Recommendation extends \yii\db\ActiveRecord
      */
     public function getQuality()
     {
-        return $this->hasOne(Quality::className(), ['id' => 'quality_id']);
+        return $this->hasOne(Quality::class, ['id' => 'quality_id']);
     }
 }

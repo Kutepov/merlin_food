@@ -19,8 +19,7 @@ class m201209_063928_create_characteristic_progress_table extends Migration
             'points' => $this->integer(2)
         ]);
 
-        $this->addForeignKey('FK_characteristic_progress_characteristic', '{{%characteristic_progress}}', 'characteristic_id', '{{%characteristic}}', 'id');
-        $this->addForeignKey('FK_characteristic_progress_user', '{{%characteristic_progress}}', 'user_id', '{{%user}}', 'id');
+        $this->addForeignKey('FK_characteristic_progress_characteristic', '{{%characteristic_progress}}', 'characteristic_id', '{{%characteristic}}', 'id', 'cascade', 'cascade');
     }
 
     /**
@@ -29,7 +28,6 @@ class m201209_063928_create_characteristic_progress_table extends Migration
     public function safeDown()
     {
         $this->dropForeignKey('FK_characteristic_progress_characteristic', '{{%characteristic_progress}}');
-        $this->dropForeignKey('FK_characteristic_progress_user', '{{%characteristic_progress}}');
         $this->dropTable('{{%characteristic_progress}}');
     }
 }

@@ -32,7 +32,7 @@ class Quality extends \yii\db\ActiveRecord
         return [
             [['characteristic_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
-            [['characteristic_id'], 'exist', 'skipOnError' => true, 'targetClass' => Characteristic::className(), 'targetAttribute' => ['characteristic_id' => 'id']],
+            [['characteristic_id'], 'exist', 'skipOnError' => true, 'targetClass' => Characteristic::class, 'targetAttribute' => ['characteristic_id' => 'id']],
         ];
     }
 
@@ -55,7 +55,7 @@ class Quality extends \yii\db\ActiveRecord
      */
     public function getCharacteristic()
     {
-        return $this->hasOne(Characteristic::className(), ['id' => 'characteristic_id']);
+        return $this->hasOne(Characteristic::class, ['id' => 'characteristic_id']);
     }
 
     /**
@@ -65,6 +65,6 @@ class Quality extends \yii\db\ActiveRecord
      */
     public function getRecommendations()
     {
-        return $this->hasMany(Recommendation::className(), ['quality_id' => 'id']);
+        return $this->hasMany(Recommendation::class, ['quality_id' => 'id']);
     }
 }

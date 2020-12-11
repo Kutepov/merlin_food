@@ -15,7 +15,7 @@ class m201209_062716_create_characteristic_table extends Migration
         $this->createTable('{{%characteristic}}', [
             'id' => $this->primaryKey(),
             'name' => $this->string(255),
-            'max_points' => $this->integer(2)
+            'max_points' => $this->integer(2)->defaultValue(10)
         ]);
     }
 

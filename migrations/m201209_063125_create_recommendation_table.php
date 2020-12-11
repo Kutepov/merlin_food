@@ -16,10 +16,11 @@ class m201209_063125_create_recommendation_table extends Migration
             'id' => $this->primaryKey(),
             'sort' => $this->integer(2),
             'text' => $this->text(),
-            'quality_id' => $this->integer()
+            'quality_id' => $this->integer(),
+            'personality_type' => $this->string(3)
         ]);
 
-        $this->addForeignKey('FK_recommendation_quality', '{{%recommendation}}', 'quality_id', '{{%quality}}', 'id');
+        $this->addForeignKey('FK_recommendation_quality', '{{%recommendation}}', 'quality_id', '{{%quality}}', 'id', 'cascade', 'cascade');
     }
 
     /**

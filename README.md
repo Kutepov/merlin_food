@@ -31,5 +31,13 @@ Api будет доступно по адресу:
 http://localhost:8000/api/v1
 ~~~
 
+
+Токены для тестирования
+----
+~~~
+Админ - eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlzX2FkbWluIjoxfQ.ezySHuOEVex_PhBNbAGVfFz7OAOOVvKHZ7LyEHA9RY8
+Юзер - eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlzX2FkbWluIjowfQ.0vBHhpYuDYK5ZNfrmTFWqO0xdJPOZuLcM7xcf6Z4D4M
+~~~
+
 **NOTES:**
 - Минимальная версия Docker `17.04`

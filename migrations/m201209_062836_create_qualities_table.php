@@ -18,7 +18,7 @@ class m201209_062836_create_qualities_table extends Migration
             'characteristic_id' => $this->integer()
         ]);
 
-        $this->addForeignKey('FK_quality_characteristic_id', '{{%quality}}', 'characteristic_id', '{{%characteristic}}', 'id');
+        $this->addForeignKey('FK_quality_characteristic_id', '{{%quality}}', 'characteristic_id', '{{%characteristic}}', 'id', 'cascade', 'cascade');
     }
 
     /**
