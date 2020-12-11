@@ -15,16 +15,8 @@ use Yii;
  * @property Characteristic $characteristic
  * @property User $user
  */
-class CharacteristicProgress extends \yii\db\ActiveRecord
+class CharacteristicProgress extends BaseModel
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
-        return 'characteristic_progress';
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -34,19 +26,6 @@ class CharacteristicProgress extends \yii\db\ActiveRecord
             [['user_id', 'characteristic_id', 'points'], 'integer'],
             [['characteristic_id'], 'exist', 'skipOnError' => true, 'targetClass' => Characteristic::class, 'targetAttribute' => ['characteristic_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'user_id' => 'User ID',
-            'characteristic_id' => 'Characteristic ID',
-            'points' => 'Points',
         ];
     }
 

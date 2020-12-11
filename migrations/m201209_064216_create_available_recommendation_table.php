@@ -18,7 +18,7 @@ class m201209_064216_create_available_recommendation_table extends Migration
             'recommendation_id' => $this->integer()
         ]);
 
-        $this->addForeignKey('FK_available_recommendation_recommendation', '{{%available_recommendation}}', 'recommendation_id', '{{%recommendation}}', 'id', 'cascade', 'cascade');
+        $this->addForeignKey('FK_available_recommendation_recommendation', '{{%available_recommendation}}', 'recommendation_id', '{{%recommendation}}', 'id', 'RESTRICT', 'RESTRICT');
     }
 
     /**

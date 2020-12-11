@@ -2,6 +2,8 @@
 
 namespace app\models\search;
 
+use app\models\AvailableRecommendation;
+use Yii;
 use app\models\Recommendation;
 use yii\data\ActiveDataProvider;
 
@@ -36,12 +38,21 @@ class RecommendationSearch extends Recommendation
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'attributes' => [
+                    'level'
+                ]
+            ]
         ]);
 
         $this->load($params, '');
 
         if (!$this->validate()) {
             return $dataProvider;
+        }
+
+        if (!Yii::$app->user->identity->isAdmin()) {
+            $query->rightJoin(AvailableRecommendation::tableName(). ' as ar', 'ar.recommendation_id = '.self::tableName().'.id');
         }
 
         // grid filtering conditions

@@ -2,8 +2,6 @@
 
 namespace app\models;
 
-use Yii;
-
 /**
  * This is the model class for table "quality".
  *
@@ -14,16 +12,8 @@ use Yii;
  * @property Characteristic $characteristic
  * @property Recommendation[] $recommendations
  */
-class Quality extends \yii\db\ActiveRecord
+class Quality extends BaseModel
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
-        return 'quality';
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -33,18 +23,7 @@ class Quality extends \yii\db\ActiveRecord
             [['characteristic_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['characteristic_id'], 'exist', 'skipOnError' => true, 'targetClass' => Characteristic::class, 'targetAttribute' => ['characteristic_id' => 'id']],
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'name' => 'Name',
-            'characteristic_id' => 'Characteristic ID',
+            [['name', 'characteristic_id'], 'required'],
         ];
     }
 

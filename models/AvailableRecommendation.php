@@ -12,16 +12,8 @@ namespace app\models;
  * @property User $user
  * @property Recommendation $recommendation
  */
-class AvailableRecommendation extends \yii\db\ActiveRecord
+class AvailableRecommendation extends BaseModel
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
-        return 'available_recommendation';
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -31,18 +23,6 @@ class AvailableRecommendation extends \yii\db\ActiveRecord
             [['user_id', 'recommendation_id'], 'integer'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
             [['recommendation_id'], 'exist', 'skipOnError' => true, 'targetClass' => Recommendation::class, 'targetAttribute' => ['recommendation_id' => 'id']],
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'user_id' => 'User ID',
-            'recommendation_id' => 'Recommendation ID',
         ];
     }
 

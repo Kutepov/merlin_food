@@ -6,6 +6,7 @@ use app\components\AccessRule;
 use app\models\User;
 use yii\filters\AccessControl;
 use yii\rest\ActiveController;
+use yii\web\Response;
 
 /**
  * Default controller for the `v1` module
@@ -40,14 +41,7 @@ class MainController extends ActiveController
                 ],
             ],
         ];
+        $behaviors['contentNegotiator']['formats']['text/html'] = Response::FORMAT_JSON;
         return $behaviors;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function actionIndex(): array
-    {
-        return ['message' => 'Api works'];
     }
 }

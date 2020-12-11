@@ -7,7 +7,7 @@ $config = [
     'id' => 'basic',
     'language' => 'хуй',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'documentation'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -20,6 +20,7 @@ $config = [
             'class' => 'app\modules\api\v1\Module',
             'defaultRoute' => 'main'
         ],
+        'documentation' => 'nostop8\yii2\rest_api_doc\Module',
     ],
     'components' => [
         'request' => [
@@ -56,21 +57,14 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                'api/v1/<controller>' => 'v1/<controller>',
-                'api/v1/<controller>/<action>' => 'v1/<controller>/<action>'
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/characteristic'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/quality'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/recommendation'],
+                'v1' => 'site/index'
             ],
         ],
         'response' => [
             'class' => 'yii\web\Response',
-            'on beforeSend' => function ($event) {
-                $response = $event->sender;
-                if ($response->data !== null) {
-                    $response->data = [
-                        'success' => $response->isSuccessful,
-                        'data' => $response->data,
-                    ];
-                }
-            },
         ],
         'jwt' => [
             'class' => \sizeg\jwt\Jwt::class,

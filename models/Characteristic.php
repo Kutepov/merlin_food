@@ -2,8 +2,6 @@
 
 namespace app\models;
 
-use Yii;
-
 /**
  * This is the model class for table "characteristic".
  *
@@ -14,16 +12,8 @@ use Yii;
  * @property CharacteristicProgress[] $characteristicProgresses
  * @property Quality[] $qualities
  */
-class Characteristic extends \yii\db\ActiveRecord
+class Characteristic extends BaseModel
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
-        return 'characteristic';
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -33,18 +23,6 @@ class Characteristic extends \yii\db\ActiveRecord
             [['name'], 'required'],
             [['max_points'], 'integer'],
             [['name'], 'string', 'max' => 255],
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'name' => 'Name',
-            'max_points' => 'Max Points',
         ];
     }
 

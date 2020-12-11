@@ -40,7 +40,7 @@ class m201211_155131_fill_testing_data extends Migration
         $this->truncateTable('{{%recommendation}}');
         $this->batchInsert(
           '{{%recommendation}}',
-          ['sort', 'text', 'quality_id', 'personality_type'],
+          ['level', 'text', 'quality_id', 'personality_type'],
           [
               [1, Lorem::sentence(6), 1, 'ex1'],
               [2, Lorem::sentence(6), 1, 'ex1'],
