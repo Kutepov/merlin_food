@@ -34,7 +34,7 @@ http://localhost:8000/v1
 Документация по api доступна по адресу:
 
 ~~~
-http://localhost:8000/api/v1
+http://localhost:8000/documentation
 ~~~
 
 **NOTES:**
