@@ -58,7 +58,19 @@ $config = [
             'rules' => [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/characteristic'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/quality'],
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/recommendation'],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'v1/recommendation',
+                    'patterns' => [
+                        'PUT,PATCH {id}' => 'update',
+                        'DELETE {id}' => 'delete',
+                        'GET,HEAD {id}' => 'view',
+                        'POST' => 'create',
+                        'GET,HEAD' => 'index',
+                        'GET open-new' => 'open-new'
+                    ]
+
+                ],
                 'v1' => 'site/index'
             ],
         ],

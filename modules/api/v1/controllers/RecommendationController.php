@@ -2,8 +2,12 @@
 
 namespace app\modules\api\v1\controllers;
 
+use app\models\AvailableRecommendation;
 use app\models\search\RecommendationSearch;
+use app\models\User;
+use yii\base\Exception;
 use yii\data\ActiveDataProvider;
+use yii\web\HttpException;
 
 /**
  * Recommendation controller for the `v1` module
@@ -11,6 +15,18 @@ use yii\data\ActiveDataProvider;
 class RecommendationController extends MainController
 {
     public $modelClass = 'app\models\Recommendation';
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['access']['only'][] = 'get-new-recommendation';
+        $behaviors['access']['rules'][] = [
+                'actions' => ['get-new-recommendation'],
+                'allow' => true,
+                'roles' => [User::ROLE_USER, User::ROLE_ADMIN],
+        ];
+        return $behaviors;
+    }
 
     /**
      * @return array
@@ -33,7 +49,6 @@ class RecommendationController extends MainController
     }
 
     /**
-     * Rest Title: TEST.1
      * Rest Description: Get all Recommendation <br>
      * Filter "sort" can take values - "-level" or "level" <br>
      * Admin can view all recommendations, User can view only available recommendations.
@@ -63,5 +78,25 @@ class RecommendationController extends MainController
      * Rest Description: Delete Recommendation.
      */
     public function actionDelete() {}
+
+
+    /**
+     * Rest Description: Open new recommendation.
+     * Rest Filters: ['quality_id', 'personality_type'].
+     */
+    public function actionOpenNew($quality_id, $personality_type)
+    {
+        if (!\Yii::$app->user->identity->isBought()) {
+            throw new HttpException(402, 'Payment required');
+        }
+
+        try {
+            return AvailableRecommendation::getNew($quality_id, $personality_type, \Yii::$app->user->id);
+        }
+        catch (Exception $e) {
+            \Yii::$app->response->statusCode = 404;
+            return ['message' => $e->getMessage()];
+        }
+    }
 
 }

@@ -13,23 +13,33 @@ use yii\web\IdentityInterface;
  */
 class User implements IdentityInterface
 {
-    const ROLE_ADMIN = 'admin';
-    const ROLE_USER = 'user';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_USER = 'ROLE_USER';
 
     private $id;
     private $role;
+    private $is_bought = false;
 
-    public function __construct($id, $is_admin)
+    public function __construct($id, $roles, $is_bought = false)
     {
         $this->id = $id;
-        $this->role = (bool) $is_admin ? self::ROLE_ADMIN : self::ROLE_USER;
+        $this->role = (bool) in_array(self::ROLE_ADMIN, $roles) ? self::ROLE_ADMIN : self::ROLE_USER;
+        $this->is_bought = $is_bought;
     }
     /**
      * @return bool
      */
-    public function isAdmin()
+    public function isAdmin(): bool
     {
         return $this->role == self::ROLE_ADMIN;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isBought(): bool
+    {
+        return $this->is_bought;
     }
 
     /**
@@ -46,7 +56,11 @@ class User implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        return new self($token->getClaim('uid'), $token->getClaim('is_admin'));
+        return new self(
+            $token->getClaim('uuid'),
+            $token->getClaim('roles'),
+            isset($token->getClaims()['is_bought']) ? $token->getClaim('is_bought') : false
+        );
     }
 
     /**

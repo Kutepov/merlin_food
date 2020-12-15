@@ -35,9 +35,11 @@ use yii\helpers\Html;
 
 
         <div class="alert alert-info">
-            <b>Token for Admin:</b> eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlzX2FkbWluIjoxfQ.ezySHuOEVex_PhBNbAGVfFz7OAOOVvKHZ7LyEHA9RY8
-            <br>
-            <b>Token for User:</b> eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlzX2FkbWluIjowfQ.0vBHhpYuDYK5ZNfrmTFWqO0xdJPOZuLcM7xcf6Z4D4M
+            <b>Token for Admin:</b> eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoxLCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl19.ZLczq0HF8JdHePcXYaeetMdhgtH8oIJK-albPSAkBnU
+            <br><br>
+            <b>Token for User:</b> eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoyLCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.oMDv-Zb05NqKQ1aYU75sep1mNBhH0gQOr1pwF5B0UqI
+            <br><br>
+            <b>Token User buy recommendation:</b> eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoyLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaXNfYm91Z2h0IjoxfQ.O-nPcz4oyUmtFpFrHv700OHI2jzBb5T8lX6M42U2Of0
         </div>
 
         <?= $content ?>
