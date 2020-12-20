@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\models\forms\OpenNewRecommendation;
 use yii\base\Exception;
 use yii\db\ActiveQuery;
 
@@ -11,6 +12,7 @@ use yii\db\ActiveQuery;
  * @property int $id
  * @property int|null $user_id
  * @property int|null $recommendation_id
+ * @property string $transaction_id
  *
  * @property Recommendation $recommendation
  */
@@ -24,7 +26,8 @@ class AvailableRecommendation extends BaseModel
         return [
             [['user_id', 'recommendation_id'], 'integer'],
             [['recommendation_id'], 'exist', 'skipOnError' => true, 'targetClass' => Recommendation::class, 'targetAttribute' => ['recommendation_id' => 'id']],
-            [['user_id', 'recommendation_id'], 'required']
+            [['user_id', 'recommendation_id', 'transaction_id'], 'required'],
+            [['transaction_id'], 'unique'],
         ];
     }
 
@@ -41,37 +44,39 @@ class AvailableRecommendation extends BaseModel
     /**
      * Выдать пользователю новую рекомендацию
      *
-     * @param $quality_id
-     * @param $personality_type
-     * @param $user_id
-     * @return array|\yii\db\ActiveRecord
+     * @param OpenNewRecommendation $form
+     * @return array|self
      * @throws Exception
      */
-    public static function getNew($quality_id, $personality_type, $user_id)
+    public static function getNew(OpenNewRecommendation $form)
     {
-        $maxAvailableRecommendation = self::getRecommendationActiveQuery($quality_id, $personality_type)
-            ->rightJoin(self::tableName(), self::tableName().'.recommendation_id = '.Recommendation::tableName().'.id and user_id = '.$user_id)
+        $maxAvailableRecommendation = self::getRecommendationActiveQuery($form->payload['quality_id'], $form->payload['person_type'])
+            ->rightJoin(self::tableName(), self::tableName().'.recommendation_id = '.Recommendation::tableName().'.id and user_id = '.$form->person_id)
             ->max('level');
 
-        $nextRecommendation = self::getRecommendationActiveQuery($quality_id, $personality_type)
+        $nextRecommendation = self::getRecommendationActiveQuery($form->payload['quality_id'], $form->payload['person_type'])
             ->orderBy(['level' => SORT_ASC])
             ->limit(1);
         if (!is_null($maxAvailableRecommendation)) {
             $nextRecommendation->andWhere(['>', 'level', $maxAvailableRecommendation]);
         }
 
-        $modelRecommendation =  $nextRecommendation->one();
+        $modelRecommendation = $nextRecommendation->one();
         if (!is_null($modelRecommendation)) {
 
             $availableRecommendation = new self();
-            $availableRecommendation->user_id = $user_id;
+            $availableRecommendation->user_id = $form->person_id;
             $availableRecommendation->recommendation_id = $modelRecommendation->id;
-            $availableRecommendation->save();
+            $availableRecommendation->transaction_id = $form->trans_id;
+            if (!$availableRecommendation->validate()) {
+                return $availableRecommendation;
+            }
 
+            $availableRecommendation->save();
             return $modelRecommendation;
         }
         elseif (is_null($maxAvailableRecommendation)) {
-            throw new Exception('Not found');
+            throw new Exception('No recommendation found for opening');
         }
 
         throw new Exception('All recommendations are open');

@@ -42,6 +42,9 @@ class RecommendationSearch extends Recommendation
                 'attributes' => [
                     'level'
                 ]
+            ],
+            'pagination' => [
+                'pageSize' => 100
             ]
         ]);
 
@@ -51,15 +54,23 @@ class RecommendationSearch extends Recommendation
             return $dataProvider;
         }
 
-        if (!Yii::$app->user->identity->isAdmin()) {
-            $query->rightJoin(AvailableRecommendation::tableName(). ' as ar', 'ar.recommendation_id = '.self::tableName().'.id');
-        }
-
-        // grid filtering conditions
         $query->andFilterWhere([
             'personality_type' => $this->personality_type,
             'quality_id' => $this->quality_id,
         ]);
+
+
+        $models = $dataProvider->models;
+        $updatedModels = [];
+        /** @var self $model */
+        foreach ($models as $model) {
+            if (!$model->isBoughtUser(Yii::$app->user->id)) {
+                $model->text = null;
+                $model->is_bought = false;
+            }
+            $updatedModels[] = $model;
+        }
+        $dataProvider->models = $updatedModels;
 
         return $dataProvider;
     }

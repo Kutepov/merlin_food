@@ -67,7 +67,7 @@ $config = [
                         'GET,HEAD {id}' => 'view',
                         'POST' => 'create',
                         'GET,HEAD' => 'index',
-                        'GET open-new' => 'open-new'
+                        'POST open-new' => 'open-new'
                     ]
 
                 ],

@@ -3,6 +3,7 @@
 namespace app\modules\api\v1\controllers;
 
 use app\models\AvailableRecommendation;
+use app\models\forms\OpenNewRecommendation;
 use app\models\search\RecommendationSearch;
 use app\models\User;
 use yii\base\Exception;
@@ -34,7 +35,7 @@ class RecommendationController extends MainController
     public function actions()
     {
         $actions = parent::actions();
-        $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
+        unset($actions['index']);
         return $actions;
     }
 
@@ -55,7 +56,11 @@ class RecommendationController extends MainController
      * Rest Fields: ['id', 'level', 'text', 'quality_id', 'personality_type'].
      * Rest Filters: ['quality_id', 'personality_type', 'sort'].
      */
-    public function actionIndex() {}
+    public function actionIndex()
+    {
+        $dataProvider = $this->prepareDataProvider();
+        return $dataProvider;
+    }
 
     /**
      * Rest Description: Create Recommendation.
@@ -82,16 +87,24 @@ class RecommendationController extends MainController
 
     /**
      * Rest Description: Open new recommendation.
-     * Rest Filters: ['quality_id', 'personality_type'].
+     * Rest Fields: ['user_id', 'person_id', 'trans_id', 'payload' => ['quality_id', 'person_type']].
      */
-    public function actionOpenNew($quality_id, $personality_type)
+    public function actionOpenNew()
     {
         if (!\Yii::$app->user->identity->isBought()) {
             throw new HttpException(402, 'Payment required');
         }
 
         try {
-            return AvailableRecommendation::getNew($quality_id, $personality_type, \Yii::$app->user->id);
+
+            $form = new OpenNewRecommendation();
+            $form->load(\Yii::$app->request->post(), '');
+
+            if (!$form->validate()) {
+                return $form;
+            }
+
+            return AvailableRecommendation::getNew($form);
         }
         catch (Exception $e) {
             \Yii::$app->response->statusCode = 404;

@@ -18,12 +18,28 @@ namespace app\models;
 class Recommendation extends BaseModel
 {
     public $balance_levels_before_save = true;
+    public $is_bought = true;
+
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'recommendation';
+        return '{{%recommendation}}';
+    }
+
+    /**
+     * @return array
+     */
+    public function fields()
+    {
+        $fields = parent::fields();
+
+        if (\Yii::$app->user->identity->isAdmin()) {
+            unset($fields['is_bought']);
+        }
+
+        return $fields;
     }
 
     /**
@@ -36,6 +52,7 @@ class Recommendation extends BaseModel
             [['text'], 'string'],
             [['quality_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quality::class, 'targetAttribute' => ['quality_id' => 'id']],
             [['level', 'text', 'quality_id', 'personality_type'], 'required'],
+            [['is_bought'], 'safe'],
         ];
     }
 
@@ -79,5 +96,14 @@ class Recommendation extends BaseModel
 
         }
         parent::afterSave($insert, $changedAttributes);
+    }
+
+    /**
+     * @param $user_id
+     * @return bool
+     */
+    public function isBoughtUser(int $user_id): bool
+    {
+        return (bool) AvailableRecommendation::find()->where(['user_id' => $user_id, 'recommendation_id' => $this->id])->count();
     }
 }
