@@ -19,6 +19,14 @@
 $ docker-compose up --build
 ~~~
 
+Развернется development окружение.
+
+Чтобы развернуть production окружение, нужно собрать образ, используя аргумент ENVIRONMENT:
+~~~
+$ docker-compose build --build-arg ENVIRONMENT=prod
+$ docker-compose up -d
+~~~
+
 Теперь должна быть возможность получить доступ к приложению по адресу:
 
 ~~~
